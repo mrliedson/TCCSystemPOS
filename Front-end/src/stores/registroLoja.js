@@ -8,7 +8,7 @@ export const cadastroLoja = ref({
     telefone: '',
     whatsapp: false,
     cnpj:'',
-    codDono:''
+    codEmpresa:''
   },
   enderecoLoja: {
     cep: '',

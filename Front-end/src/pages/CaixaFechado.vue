@@ -1,9 +1,22 @@
 <template>
   <div class="container">
     <!-- Botão de Logout -->
-    <UiButton class="logout" label="Sair" @click="router.back()" />
+    <button class="botao-voltar" @click="router.back()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+    </button>
+    
     <h1 class="title">Caixa fechado</h1>
-    <h4>Logo mais estaremos de volta!</h4>
+    <h4 class="frase">Logo mais estaremos de volta!</h4>
+
+    <div class="botoes">
+    <UiButton
+      label="Abrir caixa"
+      class="btn"
+      @click="CaixaLivre"
+    />
+  </div>
   </div>
 
   
@@ -11,10 +24,13 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-//import { Uilogo } from '../components/index.js'
+import { UiButton } from '../components/index.js'
 
 const router = useRouter()
 
+const CaixaLivre = () => {
+  router.push('/CaixaLivre'); // Redireciona para a rota desejada
+}
 
 </script>
 
@@ -51,11 +67,19 @@ html, body {
 }
 
 .title {
+  padding-top: 10%;
   color: white;
-  font-size: 120px;
+  font-size: 200px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 5%;
+}
+.frase {
+  color: white;
+  font-size: 50px;
+  font-weight: bold;
+  text-align:end;
+  margin-left:20%;
 }
 
 .uilogo-main {
@@ -73,28 +97,35 @@ html, body {
   gap: 10px;
 }
 
-.btn {
-  width: 180px;
-  height: 60px;
-  background-color: #ff7f26;
-  border-radius: 24px;
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
+.botao-voltar {
+  width: 80px;
+  height: 80px;
+  background-color: #333;
   border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-  text-align: center;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 20px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
 }
 
-.btn:hover {
-  background-color: #b14a01;
+.botao-voltar:hover {
+  background-color: #444;
 }
 
-.btn:active {
-  background-color: #ff7f26;
+.botao-voltar svg {
+  width: 36px;
+  height: 36px;
+  stroke: white;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
 }
 </style>

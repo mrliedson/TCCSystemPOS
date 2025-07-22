@@ -13,6 +13,7 @@
           v-model="form.email"
           placeholder="Digite seu email"
           class="input-field"
+          autocomplete="username"
         />
       </div>
 
@@ -24,10 +25,12 @@
           v-model="form.senha"
           placeholder="Digite sua senha"
           class="input-field"
+          autocomplete="current-password"
         />
       </div>
 
-      <a href="#" class="forgot-password">Esqueci senha</a>
+      <router-link to="/redefinirSenha" class="forgot-password">Esqueci senha</router-link>
+
 
       <div class="btn-container">
         <UiButton
@@ -37,6 +40,12 @@
           @click="login"
         />
       </div>
+    </div>
+
+    <!-- Mensagem de erro/alerta -->
+    <div v-if="mensagem" class="mensagem-alerta">
+      <p>{{ mensagem }}</p>
+      <button @click="mensagem = ''" class="botao-fechar">Fechar</button>
     </div>
   </div>
 </template>
@@ -55,6 +64,7 @@ const form = ref({
 })
 
 const isLoading = ref(false)
+const mensagem = ref('')
 
 const login = async () => {
   if (isLoading.value) return
@@ -63,18 +73,18 @@ const login = async () => {
   const senha = form.value.senha.trim()
 
   if (!email || !senha) {
-    alert('Preencha todos os campos!')
+    mensagem.value = 'Preencha todos os campos!'
     return
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (!emailRegex.test(email)) {
-    alert('Digite um email válido!')
+    mensagem.value = 'Digite um email válido!'
     return
   }
 
   if (senha.length < 6) {
-    alert('A senha deve ter pelo menos 6 caracteres!')
+    mensagem.value = 'A senha deve ter pelo menos 6 caracteres!'
     return
   }
 
@@ -85,19 +95,19 @@ const login = async () => {
     const usuario = response.data.message?.[0]
 
     if (!usuario || !usuario.senha_hash) {
-      alert('Usuário não encontrado ou erro ao buscar os dados!')
+      mensagem.value = 'Usuário não encontrado ou erro ao buscar os dados!'
       return
     }
 
     if (senha !== usuario.senha_hash) {
-      alert('Senha incorreta. Tente novamente!')
+      mensagem.value = 'Senha incorreta. Tente novamente!'
       return
     }
 
     router.push('/home')
   } catch (error) {
     console.error('Erro ao fazer login:', error)
-    alert('Erro ao conectar com o servidor!')
+    mensagem.value = 'Erro ao conectar com o servidor!'
   } finally {
     isLoading.value = false
   }
@@ -111,10 +121,11 @@ body {
   min-height: 100vh; /* Garante que o body tenha pelo menos a altura da tela */
   background-image: url('../assets/fundoTCClogin.png');
   background-repeat: no-repeat;
-  background-size: cover; /* Cobrir toda a área disponível */
-  background-position: center center; /* Centraliza a imagem */
-  background-attachment: fixed; /* Opcional: fixa o fundo ao rolar (evita cortes) */
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
 }
+
 .container {
   display: flex;
   flex-direction: column;
@@ -155,19 +166,19 @@ body {
   padding: 10px;
   border: 2px solid transparent;
   border-radius: 24px;
-  cursor: pointer;
+  cursor: text; /* cursor de texto para input */
   transition: border-color 0.3s ease-in-out;
 }
 
 .input-field:focus {
-  border-color: #007bff;
+  border-color: #e7d04d;
   outline: none;
 }
 
 .forgot-password {
   text-align: left;
   font-size: 0.9rem;
-  color: #007bff;
+  color: #e7d04d;
   text-decoration: none;
 }
 
@@ -196,6 +207,37 @@ body {
 
 .btn:active {
   background-color: #ff7f26;
+}
+
+/* Mensagem de alerta */
+.mensagem-alerta {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #e64219;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 9999;
+}
+
+.botao-fechar {
+  background: white;
+  color: #e64219;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.botao-fechar:hover {
+  background: #eee;
 }
 
 @media (max-width: 480px) {

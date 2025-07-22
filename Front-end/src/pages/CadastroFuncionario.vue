@@ -1,13 +1,17 @@
 <template>
   <div class="container-registro-usuario">
     <!-- Botão de voltar -->
-    <UiButton class="voltar" label="<" @click="router.back()" />
+    <button class="botao-voltar" @click="router.back()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+    </button>
 
     <h1 class="title">DADOS DO USUÁRIO</h1>
 
     <!-- Nome -->
     <div class="text-input-container">
-      <label for="nome" class="input-label">Nome completo:*</label>
+      <label for="nome" class="input-label">Nome completo: <text style="color: red;">*</text></label>
       <input
         type="text"
         v-model="form.nome"
@@ -20,7 +24,7 @@
 
     <!-- Telefone -->
     <div class="text-input-container">
-      <label for="telefone" class="input-label">Telefone:*</label>
+      <label for="telefone" class="input-label">Telefone: <text style="color: red;">*</text></label>
       <input
         type="text"
         v-model="form.telefone"
@@ -41,12 +45,29 @@
 
     <!-- Gênero -->
     <div class="text-input-container">
-      <label for="genero" class="input-label">Gênero:</label>
-      <UiSelect v-model="form.gener" :options="customOptions" />
+      <label for="genero" class="input-label">Gênero: <text style="color: red;">*</text></label>
+      <UiSelect v-model="form.genero" :options="customOptions" />
     </div>
 
-    <!-- Botão de Enviar -->
+    <!-- Código da empresa -->
+      <div class="form-group">
+        <label class="input-label">Código da empresa: <text style="color: red;">*</text></label>
+        <input
+          type="text"
+          v-model="form.codEmpresa"
+          placeholder="Digite o código do dono"
+          class="text-input"
+        />
+      </div>
+
+    <!-- Botão -->
     <UiButton class="next" label="Criar Cadastro" @click="handleSubmit()" />
+
+    <!-- ✅ Mensagem de alerta -->
+    <div v-if="mensagem" class="mensagem-alerta">
+      <p>{{ mensagem }}</p>
+      <button @click="mensagem = ''" class="botao-fechar">Fechar</button>
+    </div>
   </div>
 </template>
 
@@ -65,31 +86,38 @@ const form = ref({
   telefone: '',
   whatsapp: false,
   genero: '',
+  codEmpresa:''
 })
 
+const mensagem = ref('')
+
 async function handleSubmit() {
+  if (!form.value.nome || !form.value.telefone) {
+    mensagem.value = 'Preencha todos os campos obrigatórios!'
+    return
+  }
+
   cadastroFuncionario.value.dadosFuncionario.nome = form.value.nome
   cadastroFuncionario.value.dadosFuncionario.telefone = form.value.telefone
   cadastroFuncionario.value.dadosFuncionario.whatsapp = form.value.whatsapp
   cadastroFuncionario.value.dadosFuncionario.genero = form.value.genero
 
-  alert(cadastroFuncionario.value.dadosFuncionario.nome)
-  alert(cadastroFuncionario.value.dadosLogin.email)
   try {
     await axios.post('http://localhost:3333/user', {
       nome: cadastroFuncionario.value.dadosFuncionario.nome,
       telefone: cadastroFuncionario.value.dadosFuncionario.telefone,
       whatsapp: cadastroFuncionario.value.dadosFuncionario.whatsapp,
       genero: cadastroFuncionario.value.dadosFuncionario.genero,
+      codEmpresa: cadastroFuncionario.value.dadosFuncionario.codEmpresa,
       email: cadastroFuncionario.value.dadosLogin.email,
       nomeUsuario: cadastroFuncionario.value.dadosLogin.nomeUsuario,
       senha: cadastroFuncionario.value.dadosLogin.senha,
       tipo: cadastroFuncionario.value.dadosLogin.tipo,
     })
-    alert('Cadastro concluído com sucesso!')
+    mensagem.value = 'Cadastro concluído com sucesso!'
     router.push('/')
   } catch {
-    alert('Erro ao enviar o cadastro. Tente novamente.')
+    mensagem.value = 'Erro ao enviar o cadastro. Tente novamente.'
   }
 }
 </script>
@@ -130,9 +158,14 @@ async function handleSubmit() {
   padding: 10px;
   border: 2px solid transparent;
   border-radius: 24px;
-  cursor: pointer;
+  cursor: text;
   transition: border-color 0.3s ease-in-out;
   box-sizing: border-box;
+}
+
+.text-input:focus {
+  border-color: #ff7f26;
+  outline: none;
 }
 
 .checkbox-container {
@@ -179,6 +212,7 @@ async function handleSubmit() {
 .next:active {
   background-color: #ff7f26;
 }
+
 .voltar {
   position: absolute;
   top: 20px;
@@ -191,11 +225,61 @@ async function handleSubmit() {
   width: 80px;
   font-size: 32px;
 }
+
 .voltar:hover {
   background-color: #b14a01;
 }
 
 .voltar:active {
   background-color: #ff7f26;
+}
+
+/* ✅ Mensagem de alerta */
+.mensagem-alerta {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #e64219;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 9999;
+}
+
+.botao-voltar {
+  width: 80px;
+  height: 80px;
+  background-color: #333;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 20px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.botao-voltar:hover {
+  background-color: #444;
+}
+
+.botao-voltar svg {
+  width: 36px;
+  height: 36px;
+  stroke: white;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
 }
 </style>
