@@ -1,6 +1,6 @@
 import express from "express";
 import service from "../services/donoService.js";
-//exemplo
+//exemplo de rota
 const route = express.Router();
 
 route.get("/",  async (request, response) => {
