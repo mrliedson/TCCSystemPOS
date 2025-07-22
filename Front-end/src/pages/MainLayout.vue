@@ -4,20 +4,23 @@
       <SpinnerLoading :isLoading="isLoading" message="Processando login..." />
     </div>
 
-    <Uilogo class="uilogo-main" />
+    <img class="logo" src="../assets/logo.png" alt="Logo SystemPOS">
 
-    <UiButton
-      label="ENTRAR"
-      class="entrar-main"
-      @click="processar"
-    />
+    <div class="btn-container">
+      <UiButton
+        label="Entrar"
+        class="btn"
+        @click="processar"
+        :disabled="isLoading"
+      />
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { UiButton, Uilogo } from '../components/index.js'
+import { UiButton } from '../components/index.js'
 import SpinnerLoading from '../components/ui/SpinnerLoading.vue'
 
 const isLoading = ref(false)
@@ -27,50 +30,81 @@ const processar = () => {
   isLoading.value = true
   setTimeout(() => {
     isLoading.value = false
-    console.log('Processamento concluído!')
     router.push('/loginPage')
   }, 1000)
 }
 </script>
 
-<style>
+<style scoped>
 html, body {
-  overflow: hidden;
-  height: 100vh;
   margin: 0;
   padding: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  background-image: url('../assets/fundoTCClogin.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .container-main {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
+  justify-content: flex-start;
+  height: 100%;
+  padding: 20px;
   position: relative;
+  
 }
 
 .uilogo-main {
-  width: 150px; /* Ajuste conforme o tamanho da sua logo */
+  
+  width: 150px;
   height: auto;
-  margin-bottom: 30px;
+  
+}
+.logo{
+  width: 40%;
+  height: 40%;
+  object-fit: cover;
 }
 
-.entrar-main {
-  padding: 10px 30px;
-  font-size: 16px;
-  border-radius: 8px;
+.btn-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 300px;
+}
+
+.btn {
+  background-color: #ff7f26;
+  color: white;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
 }
 
-/* Quando o loading estiver ativo */
+.btn:hover {
+  background-color: #b14a01;
+}
+
+.btn:active {
+  background-color: #ff7f26;
+}
+
 .spinner-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.466);
+  background: rgba(255, 255, 255, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;

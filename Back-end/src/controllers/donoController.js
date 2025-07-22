@@ -1,6 +1,5 @@
 import express from "express";
 import service from "../services/donoService.js";
-//exemplo
 const route = express.Router();
 
 route.get("/",  async (request, response) => {
@@ -22,7 +21,7 @@ route.get("/:id",  async (request, response) => {
 
     return response.status(200).send({"message": dono});
 });
-
+//comentario
 route.post("/", async (request, response) => {
     const {cpf, data_nascimento, endereco_particular, codDono} = request.body;
 

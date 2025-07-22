@@ -1,7 +1,11 @@
 <template>
   <div class="pai">
     <!-- Botão de Logout -->
-    <UiButton class="logout" label="Sair" @click="logout" />
+    <button class="botao-voltar" @click="logout" aria-label="Voltar">
+      <svg viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+    </button>
 
     <!-- Mensagem de boas-vindas -->
     <div class="bemvindo">Bem Vindo {{ usuario }}!</div>
@@ -88,19 +92,35 @@ const CaixaLivre = () => {
   font-size: 24px;
 }
 
-.logout {
+.botao-voltar {
+  width: 80px;
+  height: 80px;
+  background-color: #333;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 20px;
   position: absolute;
   top: 20px;
   left: 20px;
-  background-color: red;
-  color: white;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 5px;
-  width: 80px;
+  z-index: 1000;
 }
 
-.logout:hover {
-  background-color: darkred;
+.botao-voltar:hover {
+  background-color: #444;
+}
+
+.botao-voltar svg {
+  width: 36px;
+  height: 36px;
+  stroke: white;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
 }
 </style>

@@ -23,17 +23,17 @@ const props = defineProps({
   font-size: 35px;
   border-radius: 10px;
   font-size: 20px;
-  background-color: #007bff;
+  background-color: #ff7f26;
   color: white;
   border: none;
   cursor: pointer;
 }
 
 .btn:hover {
-  background-color: #0069d9;
+  background-color: #b14a01;
 }
 
 .btn:active {
-  background-color: #0059b3;
+  background-color: #ff7f26;
 }
 </style>

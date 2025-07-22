@@ -1,7 +1,7 @@
 const routes = [
   {
     path: '/',
-    component: () => import('src/pages/HomePage.vue'),
+    component: () => import('src/pages/CaixaFechado.vue'),
     children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
   },
   {
@@ -34,7 +34,7 @@ const routes = [
   },
   {
     path: '/cadastroProduto',
-    component: () => import('src/pages/cadastroProduto.vue'),
+    component: () => import('src/pages/CadastroProduto.vue'),
   },
   {
     path: '/ProdutoSucesso',
@@ -59,6 +59,18 @@ const routes = [
   {
     path: '/CaixaLivre',
     component: () => import('src/pages/CaixaLivre.vue'),
+  },
+  {
+    path: '/redefinirSenha',
+    component: () => import('src/pages/RedefinirSenha.vue'),
+  },
+  {
+    path: '/verifiqueEmail',
+    component: () => import('src/pages/VerifiqueEmail.vue'),
+  },
+   {
+    path: '/redefinirSenhaNova',
+    component: () => import('src/pages/RedefinirSenhaNova.vue'),
   },
 
   // Always leave this as last one,

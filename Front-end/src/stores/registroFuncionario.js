@@ -13,5 +13,6 @@ export const cadastroFuncionario = ref({
     telefone: '',
     whatsapp: false,
     genero: '',
+    codEmpresa:''
   }
 })

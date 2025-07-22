@@ -1,7 +1,14 @@
 <template>
   <div class="container">
-    <UiButton class="logout" label="Sair" @click="router.back()" />
+    <button class="botao-voltar" @click="goHome" aria-label="Voltar">
+      <svg viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+    </button>
+    
     <h1 class="title">Caixa livre</h1>
+    <img class="logo" src="../assets/logo.png" alt="Logo SystemPOS">
+
     
   </div>
 
@@ -32,6 +39,10 @@ function novaCompra() {
 function fecharCaixa() {
   router.push('/FecharCaixa')
 }
+
+const goHome = () => {
+  router.push('/home')
+}
 </script>
 
 <style>
@@ -42,42 +53,26 @@ html, body {
   padding: 0;
   background-color: #000;
 }
-.logout {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background-color: red;
-  color: white;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 5px;
-  width: 80px;
-}
-
-.logout:hover {
-  background-color: darkred;
-}
 .container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   height: 100%;
-  padding-top: 80px;
+  padding-top: 20px;
 }
 
 .title {
   color: white;
-  font-size: 120px;
+  font-size: 200px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 50px;
 }
 
 .uilogo-main {
-  width: 500px;
+  
+  width: 150px;
   height: auto;
-  margin-top: 50px; /* Faz a logo descer */
 }
 
 .botoes {
@@ -89,28 +84,40 @@ html, body {
   gap: 10px;
 }
 
-.btn {
-  width: 180px;
-  height: 60px;
-  background-color: #ff7f26;
-  border-radius: 24px;
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
+.logo{
+  width: 30%;
+  height: 30%;
+  object-fit: cover;
+}
+.botao-voltar {
+  width: 80px;
+  height: 80px;
+  background-color: #333;
   border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-  text-align: center;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 20px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
 }
 
-.btn:hover {
-  background-color: #b14a01;
+.botao-voltar:hover {
+  background-color: #444;
 }
 
-.btn:active {
-  background-color: #ff7f26;
+.botao-voltar svg {
+  width: 36px;
+  height: 36px;
+  stroke: white;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
 }
 </style>

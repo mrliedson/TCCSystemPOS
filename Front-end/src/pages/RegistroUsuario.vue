@@ -1,13 +1,17 @@
 <template>
   <div class="container-registro-usuario">
     <!-- Botão de voltar -->
-    <UiButton class="voltar" label="<" @click="router.back()" />
+    <button class="botao-voltar" @click="router.back()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+    </button>
 
-    <h1 class="title">REGISTRO DE USUÁRIO</h1>
+    <h1 class="title">CADASTRO</h1>
 
     <!-- Email -->
     <div class="email">
-      <label for="email" class="input-label">Email:*</label>
+      <label for="email" class="input-label">Email: <text style="color: red;">*</text></label>
       <input
         type="email"
         v-model="form.email"
@@ -15,14 +19,12 @@
         name="email"
         placeholder="Digite seu email"
         class="text-input"
-        onfocus="this.style.borderColor='#0056b3'"
-        onblur="this.style.borderColor='#007bff'"
       />
     </div>
 
     <!-- Nome de usuário -->
     <div class="text-input-container">
-      <label for="nome" class="input-label">Nome de usuário:*</label>
+      <label for="nome" class="input-label">Nome de usuário: <text style="color: red;">*</text></label>
       <input
         type="text"
         v-model="form.userlogin"
@@ -30,15 +32,13 @@
         name="nome"
         placeholder="Digite seu nome"
         class="text-input"
-        onfocus="this.style.borderColor='#0056b3'"
-        onblur="this.style.borderColor='#007bff'"
       />
     </div>
 
     <!-- Senhas -->
     <div class="passwd">
       <div class="senha">
-        <label for="senha" class="input-label">Senha:*</label>
+        <label for="senha" class="input-label">Senha: <text style="color: red;">*</text></label>
         <input
           type="password"
           v-model="form.senha"
@@ -46,12 +46,10 @@
           name="senha"
           placeholder="Digite sua senha"
           class="text-input"
-          onfocus="this.style.borderColor='#0056b3'"
-          onblur="this.style.borderColor='#007bff'"
         />
       </div>
       <div class="senhadnv">
-        <label for="confirmarSenha" class="input-label">Senha Novamente:*</label>
+        <label for="confirmarSenha" class="input-label">Senha Novamente: <text style="color: red;">*</text></label>
         <input
           type="password"
           v-model="form.confirmarSenha"
@@ -59,8 +57,6 @@
           name="confirmarSenha"
           placeholder="Digite sua senha novamente"
           class="text-input"
-          onfocus="this.style.borderColor='#0056b3'"
-          onblur="this.style.borderColor='#007bff'"
         />
       </div>
     </div>
@@ -68,24 +64,19 @@
     <div class="passwd">
       <!-- Tipo -->
       <div class="tipo">
-        <label for="tipo" class="input-label">Tipo:</label>
+        <label for="tipo" class="input-label">Tipo: <text style="color: red;">*</text></label>
         <UiSelect v-model="form.tipo" :options="customOptions" />
-      </div>
-
-      <!-- Codigo do dono -->
-      <div class="form-group">
-        <label class="input-label">Código do dono:</label>
-        <input
-          type="text"
-          v-model="form.codDono"
-          placeholder="Digite o código do dono"
-          class="text-input"
-        />
       </div>
     </div>
 
-    <!-- Botão Vue -->
+    <!-- Botão -->
     <UiButton class="next" label="Próximo" @click="handleNext()" />
+
+    <!-- ✅ Mensagem de alerta personalizada -->
+    <div v-if="mensagem" class="mensagem-alerta">
+      <p>{{ mensagem }}</p>
+      <button @click="mensagem = ''" class="botao-fechar">Fechar</button>
+    </div>
   </div>
 </template>
 
@@ -103,26 +94,29 @@ const form = ref({
   userlogin: '',
   senha: '',
   confirmarSenha: '',
-  tipo: '',
+  tipo: ''
 })
+
+const mensagem = ref('')
 
 function handleNext() {
   if (
     !form.value.email ||
     !form.value.userlogin ||
     !form.value.senha ||
-    !form.value.confirmarSenha
+    !form.value.confirmarSenha || 
+    !form.value.tipo
   ) {
-    alert('Preencha todos os campos!')
+    mensagem.value = 'Preencha todos os campos!'
     return
   }
 
   if (form.value.senha !== form.value.confirmarSenha) {
-    alert('As senhas não coincidem!')
+    mensagem.value = 'As senhas não coincidem!'
     return
   }
-
-  // Salvar os dados na store
+    
+  // Salvar dados na store
   cadastroFuncionario.value.dadosLogin = {
     email: form.value.email,
     nomeUsuario: form.value.userlogin,
@@ -167,8 +161,13 @@ function handleNext() {
   padding: 10px;
   border: 2px solid transparent;
   border-radius: 24px;
-  cursor: pointer;
+  cursor: text;
   transition: border-color 0.3s ease-in-out;
+}
+
+.text-input:focus {
+  border-color: #ff7f26; /* amarelo/laranja */
+  outline: none;
 }
 
 .passwd {
@@ -206,6 +205,7 @@ function handleNext() {
 .next:active {
   background-color: #ff7f26;
 }
+
 .voltar {
   position: absolute;
   top: 20px;
@@ -218,11 +218,61 @@ function handleNext() {
   width: 80px;
   font-size: 32px;
 }
+
 .voltar:hover {
   background-color: #b14a01;
 }
 
 .voltar:active {
   background-color: #ff7f26;
+}
+
+/* Mensagem de alerta */
+.mensagem-alerta {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #e64219;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 9999;
+}
+
+.botao-voltar {
+  width: 80px;
+  height: 80px;
+  background-color: #333;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 20px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.botao-voltar:hover {
+  background-color: #444;
+}
+
+.botao-voltar svg {
+  width: 36px;
+  height: 36px;
+  stroke: white;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
 }
 </style>

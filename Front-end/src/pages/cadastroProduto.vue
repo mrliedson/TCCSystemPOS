@@ -1,12 +1,18 @@
 <template>
   <div class="container-registro-produto">
     <!-- Botão de voltar -->
-    <UiButton class="voltar" label="<" @click="router.back()" />
+    <!-- Botão de voltar personalizado -->
+<button class="botao-voltar" @click="voltar" aria-label="Voltar">
+  <svg viewBox="0 0 24 24">
+    <polyline points="15 18 9 12 15 6" />
+  </svg>
+</button>
+
 
     <h1 class="title">CADASTRO DE PRODUTOS</h1>
     <div class="form-grid">
       <div class="form-group">
-        <label for="nome" class="input-label">Nome do produto:*</label>
+        <label for="nome" class="input-label">Nome do produto: <text style="color: red;">*</text></label>
         <input
           type="text"
           v-model="form.nome"
@@ -18,7 +24,7 @@
       </div>
 
       <div class="form-group">
-        <label for="tipo" class="input-label">Tipo do produto:*</label>
+        <label for="tipo" class="input-label">Tipo do produto: <text style="color: red;">*</text></label>
         <input
           type="text"
           v-model="form.tipo"
@@ -30,7 +36,7 @@
       </div>
 
       <div class="form-group">
-        <label for="marca" class="input-label">Marca do produto:*</label>
+        <label for="marca" class="input-label">Marca do produto: <text style="color: red;">*</text></label>
         <input
           type="text"
           v-model="form.marca"
@@ -42,7 +48,7 @@
       </div>
 
       <div class="form-group">
-        <label for="modelo" class="input-label">Modelo do produto:*</label>
+        <label for="modelo" class="input-label">Modelo do produto: <text style="color: red;">*</text></label>
         <input
           type="text"
           v-model="form.modelo"
@@ -54,7 +60,7 @@
       </div>
 
       <div class="form-group">
-        <label for="codBarras" class="input-label">Código de barras do produto:*</label>
+        <label for="codBarras" class="input-label">Código de barras do produto: <text style="color: red;">*</text></label>
         <input
           type="text"
           v-model="form.codBarras"
@@ -66,7 +72,7 @@
       </div>
 
       <div class="form-group">
-        <label for="categoria" class="input-label">Categoria do produto:*</label>
+        <label for="categoria" class="input-label">Categoria do produto: <text style="color: red;">*</text></label>
         <input
           type="text"
           v-model="form.categoria"
@@ -78,7 +84,7 @@
       </div>
 
       <div class="form-group">
-        <label for="codProduto" class="input-label">Código do produto:*</label>
+        <label for="codProduto" class="input-label">Código do produto: <text style="color: red;">*</text></label>
         <input
           type="text"
           v-model="form.codProduto"
@@ -90,7 +96,7 @@
       </div>
 
       <div class="form-group">
-        <label for="dataValidade" class="input-label">Data de validade:*</label>
+        <label for="dataValidade" class="input-label">Data de validade: <text style="color: red;">*</text></label>
         <input
           type="date"
           v-model="form.dataValidade"
@@ -101,7 +107,7 @@
       </div>
 
       <div class="form-group">
-        <label for="fornecedor" class="input-label">Fornecedor:*</label>
+        <label for="fornecedor" class="input-label">Fornecedor: <text style="color: red;">*</text></label>
         <input
           type="text"
           v-model="form.fornecedor"
@@ -113,7 +119,7 @@
       </div>
 
       <div class="form-group">
-        <label for="preco" class="input-label">Preço(R$):*</label>
+        <label for="preco" class="input-label">Preço(R$): <text style="color: red;">*</text></label>
         <input
           type="text"
           v-model="form.preco"
@@ -123,6 +129,82 @@
           class="text-input"
         />
       </div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="form-group">
+        <label for="codBarras" class="input-label">Quantidade: <text style="color: red;">*</text></label>
+        <input
+          type="text"
+          v-model="form.quantidade"
+          id="quantidade"
+          name="quantidade"
+          placeholder="Digite a quantidade"
+          class="text-input"
+        />
+      </div>
+      <div class="form-group">
+        <label for="codBarras" class="input-label">Estoque mínimo: <text style="color: red;">*</text></label>
+        <input
+          type="text"
+          v-model="form.estMin"
+          id="estMin"
+          name="estMin" 
+          placeholder="Digite o estoque mínimo" 
+          class="text-input"
+        />
+      </div>
+      <div class="form-group">
+        <label for="codBarras" class="input-label">Estoque máximo: <text style="color: red;">*</text></label>
+        <input
+          type="text"
+          v-model="form.estMax"
+          id="estMax"
+          name="estMax"
+          placeholder="Digite o destoque máximo"
+          class="text-input"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="codBarras" class="input-label">Imagem: <text style="color: red;">*</text></label>
+        <input
+          type="file"
+          id="img"
+          name="img"
+          placeholder="Insira a imagem do produto"
+          class="text-input"
+        />
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
     </div>
 
     <div class="botao-container">
@@ -150,8 +232,15 @@ const form = ref({
   dataValidade: '',
   fornecedor: '',
   preco: '',
+  quantidade: '',
+  estMin: '',
+  estMax: '',
+  img: ''
 })
 
+const voltar = () => {
+  router.push('/home'); // Redireciona para a rota desejada
+};
 function handleNext() {
   console.log('Dados enviados:', form.value)
 
@@ -164,7 +253,11 @@ function handleNext() {
     !form.value.categoria ||
     !form.value.dataValidade ||
     !form.value.fornecedor ||
-    !form.value.preco
+    !form.value.preco ||
+    !form.value.quantidade ||
+    !form.value.estMin ||
+    !form.value.estMax ||
+    !form.value.img
   ) {
     alert('Preencha todos os campos!')
     return
@@ -182,18 +275,20 @@ function handleNext() {
       dataValidade: form.value.dataValidade,
       fornecedor: form.value.fornecedor,
       preco: form.value.preco,
+      quantidade: form.value.quantidade,
+      estMin: form.value.estMin,
+      estMax: form.value.estMax,
+      img: form.value.img,
     })
 
     .then((response) => {
       if (response.status === 201) {
-        alert('Produto registrado com sucesso!')
         router.push('/ProdutoSucesso')
       }
     })
     .catch((error) => {
       // Se o erro for por conflito (exemplo: produto já existe)
       if (error.response && error.response.status === 409) {
-        alert('Produto já cadastrado!')
         router.push('/ProdutoNaoSucesso')
       } else {
         // Qualquer outro erro
@@ -274,23 +369,36 @@ body {
 .next :active {
   background-color: #ff7f26;
 }
-.voltar {
+.botao-voltar {
+  width: 80px;
+  height: 80px;
+  background-color: #333;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 20px;
   position: absolute;
   top: 20px;
   left: 20px;
-  background-color: #ff7f26;
-  color: white;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 35px;
-  width: 80px;
-  font-size: 32px;
-}
-.voltar:hover {
-  background-color: #b14a01;
+  z-index: 1000;
 }
 
-.voltar:active {
-  background-color: #ff7f26;
+.botao-voltar:hover {
+  background-color: #444;
 }
+
+.botao-voltar svg {
+  width: 36px;
+  height: 36px;
+  stroke: white;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
 </style>
